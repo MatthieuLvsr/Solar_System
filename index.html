@@ -201,7 +201,6 @@
         earthGhost = new THREE.Mesh( earthGhostGeometry, earthGhostMaterial );
         // earthGhost.visible = false
         earthGhost.rotation.z = toRad(23.5)
-        earthGhost.rotation.x = toRad(23.5)
         scene.add( earthGhost );
         // ------------------------------------------
 
@@ -718,53 +717,56 @@
     function loadTextures(){
         const texture_loader = new THREE.TextureLoader()
         cloudTexture = texture_loader.load( "../three.js-master/examples/textures/8k_earth_clouds.jpg" , function(){
-            loadBar(50/22, 'Texture des nuages')
+            loadBar(50/23, 'Texture des nuages')
             earthNightTexture = texture_loader.load( "../three.js-master/examples/textures/8k_earth_nightmapV2.jpg" , function(){
-                loadBar(50/22, 'Texture de la Terre de nuit')
+                loadBar(50/23, 'Texture de la Terre de nuit')
                 earthTexture = texture_loader.load( "../three.js-master/examples/textures/8k_earth_daymap.jpg" , function(){
-                    loadBar(50/22, 'Texture de la Terre')
+                    loadBar(50/23, 'Texture de la Terre')
                     earthNormalMap = texture_loader.load( "../three.js-master/examples/textures/EarthNormal.png" , function(){
-                        loadBar(50/22, 'Relief de la Terre')
+                        loadBar(50/23, 'Relief de la Terre')
                         earthRoughMap = texture_loader.load( "../three.js-master/examples/textures/8k_earth_specular_map.jpg" , function(){
-                            loadBar(50/22, 'Texture de rugosité de la Terre')
+                            loadBar(50/23, 'Texture de rugosité de la Terre')
                             sunTexture = texture_loader.load( "../three.js-master/examples/textures/8k_sun.jpg" , function(){
-                                loadBar(50/22, 'Texture du Soleil')
+                                loadBar(50/23, 'Texture du Soleil')
                                 mercuryTexture = texture_loader.load( "../three.js-master/examples/textures/mercury_texture_map_16k.jpg" , function(){
-                                    loadBar(50/22, 'Texture de Mercure')
+                                    loadBar(50/23, 'Texture de Mercure')
                                     mercuryNormalMap = texture_loader.load( "../three.js-master/examples/textures/mercury_normal_map_8k.png" , function(){
-                                        loadBar(50/22, 'Relief de Mercure')
+                                        loadBar(50/23, 'Relief de Mercure')
                                         marsTexture = texture_loader.load( "../three.js-master/examples/textures/mars_4k_color.jpg" , function(){
-                                            loadBar(50/22, 'Texture de Mars')
+                                            loadBar(50/23, 'Texture de Mars')
                                             marsNormalMap = texture_loader.load( "../three.js-master/examples/textures/mars_4k_normal.jpg" , function(){
-                                                loadBar(50/22, 'Relief de Mars')
+                                                loadBar(50/23, 'Relief de Mars')
                                                 earthBumpMap = texture_loader.load( "../three.js-master/examples/textures/earthbump1k.jpg" , function(){
-                                                    loadBar(50/22, 'lumière de la Terre')
+                                                    loadBar(50/23, 'lumière de la Terre')
                                                     moonTexture = texture_loader.load( "../three.js-master/examples/textures/moon-4k.png" , function(){
-                                                        loadBar(50/22, 'Texture de la Lune')
+                                                        loadBar(50/23, 'Texture de la Lune')
                                                         moonNormalMap = texture_loader.load( "../three.js-master/examples/textures/moon_normal.jpg" , function(){
-                                                            loadBar(50/22, 'Relief de la Lune')
+                                                            loadBar(50/23, 'Relief de la Lune')
                                                             venusTexture = texture_loader.load( "../three.js-master/examples/textures/8k_venus_surface.jpg" , function(){
-                                                                loadBar(50/22, 'Texture de Vénus')
+                                                                loadBar(50/23, 'Texture de Vénus')
                                                                 venusBumpMap = texture_loader.load( "../three.js-master/examples/textures/venus_8k_bump.png" , function(){
-                                                                    loadBar(50/22, 'Relief de Vénus')
+                                                                    loadBar(50/23, 'Relief de Vénus')
                                                                     venusAtmosphereTexture = texture_loader.load( "../three.js-master/examples/textures/4k_venus_atmosphere.jpg" , function(){
-                                                                        loadBar(50/22, 'Texture de l\'atmosphère de Vénus')
+                                                                        loadBar(50/23, 'Texture de l\'atmosphère de Vénus')
                                                                         jupiterTexture = texture_loader.load( "../three.js-master/examples/textures/2k_jupiter.jpg" , function(){
-                                                                            loadBar(50/22, 'Texture de Jupiter')
+                                                                            loadBar(50/23, 'Texture de Jupiter')
                                                                             saturnTexture = texture_loader.load( "../three.js-master/examples/textures/2k_saturn.jpg" , function(){
-                                                                                loadBar(50/22, 'Texture de Saturne')
+                                                                                loadBar(50/23, 'Texture de Saturne')
                                                                                 ringTexture = texture_loader.load( "../three.js-master/examples/textures/2k_ring.png" , function(){
-                                                                                    loadBar(50/22, 'Texture de l\'anneau de Saturne')
+                                                                                    loadBar(50/23, 'Texture de l\'anneau de Saturne')
                                                                                     uranusTexture = texture_loader.load( "../three.js-master/examples/textures/2k_uranus.jpg" , function(){
-                                                                                        loadBar(50/22, 'Texture d\'Uranus')
+                                                                                        loadBar(50/23, 'Texture d\'Uranus')
                                                                                         neptuneTexture = texture_loader.load( "../three.js-master/examples/textures/2k_neptune.jpg" , function(){
-                                                                                            loadBar(50/22,'Texture de Neptune')
+                                                                                            loadBar(50/23,'Texture de Neptune')
                                                                                             skyBoxTexture = texture_loader.load( "../three.js-master/examples/textures/8k_stars_milky_way.jpg" , function(){
-                                                                                                loadBar(50/22,'Texture de la Skybox')
-                                                                                                document.getElementById('content').style.visibility='hidden'
-                                                                                                document.getElementById('loader').style.visibility='hidden'
+                                                                                                loadBar(50/23,'Texture de la Skybox')
                                                                                                 init();
-                                                                                                animate();
+                                                                                                loadBar(50/23,'Initialisation')
+                                                                                                setTimeout(function(){
+                                                                                                    animate();
+                                                                                                    document.getElementById('content').style.visibility='hidden'
+                                                                                                    document.getElementById('loader').style.visibility='hidden'
+                                                                                                },500)
                                                                                             });
                                                                                         });
                                                                                     });
