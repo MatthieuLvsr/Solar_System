@@ -10,7 +10,7 @@ let load = 0
 let bar = document.getElementsByClassName('progress-bar')[0]
 
 let scene, camera, renderer, stats, clock, controls, pause = false;
-let helpSphere, sun, mercury, mars, earth, clouds, earthNight, earthNightGhost, earthGhost, moon, venus, venusAtmosphereF, venusAtmosphereB, jupiter, saturn, ring, uranus, neptune, spaceship, spaceshipGhost, deathstar;
+let helpSphere, sun, mercury, mars, earth, clouds, earthNight, earthNightGhost, earthGhost, moon, venus, venusAtmosphereF, venusAtmosphereB, jupiter, ghostSaturn, saturn, ring, uranus, neptune, spaceship, spaceshipGhost, deathstar;
 let earthTexture, cloudTexture, earthNightTexture, earthNormalMap, earthRoughMap, sunTexture, mercuryTexture, mercuryNormalMap, marsTexture, marsNormalMap, earthBumpMap, moonTexture, moonNormalMap
 let venusTexture, venusBumpMap, venusAtmosphereTexture, jupiterTexture, saturnTexture, ringTexture, uranusTexture, neptuneTexture, skyBoxTexture
 let alpha_mercury = 0;
@@ -46,7 +46,7 @@ let rotateAngle = new THREE.Vector3(0, 1, 0)
 let cameraTarget = new THREE.Vector3()
 
 // constants
-let maxSpeed = 100
+let maxSpeed = 300
 let minSpeed = 50
 
 
@@ -280,6 +280,18 @@ function init(){
     scene.add( jupiter );
     // ------------------------------------------
 
+    // SATURN GHOST
+    // -----------------------------------------
+    // const earthGhostTexture = new THREE.TextureLoader().load( "../../three.js-master/examples/textures/2k_clouds.jpg" );
+
+    const saturnGhostGeometry = new THREE.SphereGeometry( 10, 64, 32 );
+    const saturnGhostMaterial = new THREE.MeshStandardMaterial( { color:0xfff} );
+    ghostSaturn = new THREE.Mesh( saturnGhostGeometry, saturnGhostMaterial );
+    // earthGhost.visible = false
+    ghostSaturn.rotation.x = toRad(23.5)
+    scene.add( ghostSaturn );
+    // ------------------------------------------
+
     // SATURN
     // -----------------------------------------
 
@@ -288,18 +300,18 @@ function init(){
     saturn = new THREE.Mesh( saturnGeometry, saturnMaterial );
     saturn.castShadow = true; //default is false
     saturn.receiveShadow = true; //default
-    scene.add( saturn );
+    ghostSaturn.add( saturn );
     // ------------------------------------------
 
     // RING
     // ------------------------------------------
-    const ringGeometry = new THREE.RingGeometry( 25*9.449+50, 25*9.449+100, 32 );
+    const ringGeometry = new THREE.RingBufferGeometry( 25*9.449+50, 25*9.449+250, 64, 64 );
     const ringMaterial = new THREE.MeshStandardMaterial( { map:ringTexture, side: THREE.DoubleSide } );
     ring = new THREE.Mesh( ringGeometry, ringMaterial );
-    ring.rotation.x=1.2;
-    ring.castShadow = true; //default is false
+    // ring.castShadow = true; //default is false
     ring.receiveShadow = true; //default
-    scene.add( ring );
+    ring.rotation.x = - Math.PI/2
+    ghostSaturn.add( ring );
     //-------------------------------------------
 
     // URANUS
@@ -368,7 +380,7 @@ function init(){
         minSpeed = v;
         render();
     })
-    folder2.add(params,'maxSpeed',100,150).step(1).name('Vitesse maximale du vaisseau').onChange(function(v){
+    folder2.add(params,'maxSpeed',100,500).step(1).name('Vitesse maximale du vaisseau').onChange(function(v){
         maxSpeed = v;
         render();
     })
@@ -453,8 +465,12 @@ function init(){
 
     spaceshipGhost.add( spaceship);
     spaceship.scale.set(1.2,1.2,1.2)
-    spaceshipGhost.position = shipPos;
-    camera.position = camPos;
+    spaceshipGhost.position.x = shipPos.x;
+    spaceshipGhost.position.y = shipPos.y;
+    spaceshipGhost.position.z = shipPos.z;
+    camera.position.x = camPos.x;
+    camera.position.y = camPos.y;
+    camera.position.z = camPos.z;
     camera.rotation.x = -Math.PI/7
     // update camera target
     cameraTarget.x = spaceshipGhost.position.x
@@ -475,35 +491,35 @@ function animate() {
 
 
 
-    // let distToSun = new THREE.Vector3(spaceshipGhost.position.x,
-    //     spaceshipGhost.position.y,
-    //     spaceshipGhost.position.z)
-    // distToSun = Math.sqrt(Math.pow(distToSun.x,2)+Math.pow(distToSun.y,2)+Math.pow(distToSun.z,2))
-    //
-    // let distToEarth = new THREE.Vector3((spaceshipGhost.position.x - earthGhost.position.x),
-    //     (spaceshipGhost.position.y - earthGhost.position.y),
-    //     (spaceshipGhost.position.z - earthGhost.position.z))
-    // distToEarth = Math.sqrt(Math.pow(distToEarth.x,2)+Math.pow(distToEarth.y,2)+Math.pow(distToEarth.z,2))
-    //
-    // let distToMercury = new THREE.Vector3((spaceshipGhost.position.x - mercury.position.x),
-    //     (spaceshipGhost.position.y - mercury.position.y),
-    //     (spaceshipGhost.position.z - mercury.position.z))
-    // distToMercury = Math.sqrt(Math.pow(distToMercury.x,2)+Math.pow(distToMercury.y,2)+Math.pow(distToMercury.z,2))
-    //
-    // let distToVenus = new THREE.Vector3((spaceshipGhost.position.x - venus.position.x),
-    //     (spaceshipGhost.position.y - venus.position.y),
-    //     (spaceshipGhost.position.z - venus.position.z))
-    // distToVenus = Math.sqrt(Math.pow(distToVenus.x,2)+Math.pow(distToVenus.y,2)+Math.pow(distToVenus.z,2))
-    //
-    // if(distToSun<170||distToEarth < 35 || distToMercury < 20 || distToVenus < 35){
-    //     if(!document.getElementById('divAlert').classList.contains('alert')){
-    //         document.getElementById('divAlert').classList.add('alert')
-    //     }
-    // }else{
-    //     if(document.getElementById('divAlert').classList.contains('alert')){
-    //         document.getElementById('divAlert').classList.remove('alert')
-    //     }
-    // }
+    let distToSun = new THREE.Vector3(spaceshipGhost.position.x,
+        spaceshipGhost.position.y,
+        spaceshipGhost.position.z)
+    distToSun = Math.sqrt(Math.pow(distToSun.x,2)+Math.pow(distToSun.y,2)+Math.pow(distToSun.z,2))
+
+    let distToEarth = new THREE.Vector3((spaceshipGhost.position.x - earthGhost.position.x),
+        (spaceshipGhost.position.y - earthGhost.position.y),
+        (spaceshipGhost.position.z - earthGhost.position.z))
+    distToEarth = Math.sqrt(Math.pow(distToEarth.x,2)+Math.pow(distToEarth.y,2)+Math.pow(distToEarth.z,2))
+
+    let distToMercury = new THREE.Vector3((spaceshipGhost.position.x - mercury.position.x),
+        (spaceshipGhost.position.y - mercury.position.y),
+        (spaceshipGhost.position.z - mercury.position.z))
+    distToMercury = Math.sqrt(Math.pow(distToMercury.x,2)+Math.pow(distToMercury.y,2)+Math.pow(distToMercury.z,2))
+
+    let distToVenus = new THREE.Vector3((spaceshipGhost.position.x - venus.position.x),
+        (spaceshipGhost.position.y - venus.position.y),
+        (spaceshipGhost.position.z - venus.position.z))
+    distToVenus = Math.sqrt(Math.pow(distToVenus.x,2)+Math.pow(distToVenus.y,2)+Math.pow(distToVenus.z,2))
+
+    if(distToSun<170||distToEarth < 25 || distToMercury < 20 || distToVenus < 35){
+        if(!document.getElementById('divAlert').classList.contains('alert')){
+            document.getElementById('divAlert').classList.add('alert')
+        }
+    }else{
+        if(document.getElementById('divAlert').classList.contains('alert')){
+            document.getElementById('divAlert').classList.remove('alert')
+        }
+    }
 
     // console.log("x:"+spaceship.position.x+"\ny:"+spaceship.position.y+"\nz:"+spaceship.position.z)
 
@@ -610,11 +626,11 @@ function animate() {
     jupiter.position.z =(Math.sin(alpha_jupiter)*(1500+778));
     alpha_jupiter -= 0.024*pause?0:alpha_speed;
 
-    saturn.position.x =(Math.cos(alpha_saturn)*(1500+1426));
-    saturn.position.z =(Math.sin(alpha_saturn)*(1500+1426));
+    ghostSaturn.position.x =(Math.cos(alpha_saturn)*(1500+1426));
+    ghostSaturn.position.z =(Math.sin(alpha_saturn)*(1500+1426));
 
-    ring.position.x =(Math.cos(alpha_saturn)*(1500+1426));
-    ring.position.z =(Math.sin(alpha_saturn)*(1500+1426));
+    // ring.position.x =(Math.cos(alpha_saturn)*(1500+1426));
+    // ring.position.z =(Math.sin(alpha_saturn)*(1500+1426));
     alpha_saturn += 0.01*pause?0:alpha_speed;
 
     uranus.position.x =(Math.cos(alpha_uranus)*(1500+2870));
@@ -728,6 +744,7 @@ function loadTextures(){
                                                                             loadBar(50/23, 'Texture de Jupiter')
                                                                             saturnTexture = texture_loader.load( "../../three.js-master/examples/textures/2k_saturn.jpg" , function(){
                                                                                 loadBar(50/23, 'Texture de Saturne')
+                                                                                // ringTexture = texture_loader.load( "../../three.js-master/examples/textures/Ring.png" , function(){
                                                                                 ringTexture = texture_loader.load( "../../three.js-master/examples/textures/2k_ring.png" , function(){
                                                                                     loadBar(50/23, 'Texture de l\'anneau de Saturne')
                                                                                     uranusTexture = texture_loader.load( "../../three.js-master/examples/textures/2k_uranus.jpg" , function(){
